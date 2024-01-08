@@ -54,6 +54,7 @@ def main(model_dir, gendata_dir, out_dir):
 	gendata_dir = Path(gendata_dir)
 	embeds_path = model_dir / 'embeddings.tsv'
 	data_dir = Path('data/coupled')
+	pca_dir = Path(gendata_dir / 'pca')
 	cca_dir = Path(gendata_dir / 'cca')
 	mofa_dir = Path(gendata_dir / 'mofa')
 
@@ -81,6 +82,11 @@ def main(model_dir, gendata_dir, out_dir):
 
 	print(f'- Evaluating embeddings')
 
+	# PCA precalcualted with pca.py
+	expr_pca = pd.read_table(pca_dir / 'expr_pca.tsv', index_col=0).values
+	pheno_pca = pd.read_table(pca_dir / 'pheno_pca.tsv', index_col=0).values
+	expr_pheno_pca = pd.read_table(pca_dir / 'expr_pheno_pca.tsv', index_col=0).values
+
 	# CCA precalculated with cca.py
 	pheno_c = pd.read_table(cca_dir / 'pheno_cca.tsv',index_col=0).values
 	expr_c = pd.read_table(cca_dir / 'expr_cca.tsv',index_col=0).values
@@ -92,7 +98,6 @@ def main(model_dir, gendata_dir, out_dir):
 				  'expr_pca': get_pca(expr, n_components=embeds.shape[1], return_obj=False),
 				  'pheno_pca': get_pca(pheno, n_components=embeds.shape[1], return_obj=False),
 				  'expr_pheno_pca': get_pca(expr_pheno, n_components=embeds.shape[1], return_obj=False),
-				  'pheno': pheno,
 				  'expr_cca': pd.DataFrame(pheno_c, index=pheno.index),
 				  'pheno_cca': pd.DataFrame(expr_c, index=expr.index),
 				  'mofa':z_fact
