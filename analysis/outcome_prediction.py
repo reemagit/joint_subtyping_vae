@@ -95,9 +95,9 @@ def main(model_dir, gendata_dir, out_dir):
 	z_fact = pd.read_table(mofa_dir / 'Z_fact.tsv',index_col=0)
 
 	all_embeds = {'vae': embeds,
-				  'expr_pca': get_pca(expr, n_components=embeds.shape[1], return_obj=False),
-				  'pheno_pca': get_pca(pheno, n_components=embeds.shape[1], return_obj=False),
-				  'expr_pheno_pca': get_pca(expr_pheno, n_components=embeds.shape[1], return_obj=False),
+				  'expr_pca': expr_pca,
+				  'pheno_pca': pheno_pca,
+				  'expr_pheno_pca': expr_pheno_pca,
 				  'expr_cca': pd.DataFrame(pheno_c, index=pheno.index),
 				  'pheno_cca': pd.DataFrame(expr_c, index=expr.index),
 				  'mofa':z_fact
@@ -262,38 +262,7 @@ def main(model_dir, gendata_dir, out_dir):
 	res_sf36 = get_performance(all_X, y, RandomForestClassifier)
 
 	res_sf36['n_samples'] = len(sids)
-
-	# Increase in pct emphysema
-
-	idx = pheno_p3['Change_P2_P3_pctEmph_Thirona'].notna().values & (pheno_p3['Change_P2_P3_pctEmph_Thirona'].abs() > 2.5)
-	sids = embeds.loc[idx].index.tolist()
-
-	y = pheno_p3.loc[sids, 'Change_P2_P3_pctEmph_Thirona'] > 0
-	y = y.values.astype(int)
-
-	report(y,'incr emph')
-
-	all_X = {eid: emb.loc[sids].values for eid, emb in all_embeds.items()}
-
-	res_encr_emph = get_performance(all_X, y, RandomForestClassifier)
-
-	res_encr_emph['n_samples'] = len(sids)
-
-	# Increase in air trapping
-
-	idx = pheno_p3['pctGasTrap_Thirona_P3'].notna().values & pheno_p3['pctGasTrap_Thirona_P2'].notna().values & ((pheno_p3['pctGasTrap_Thirona_P3']-pheno_p3['pctGasTrap_Thirona_P2']).abs() > 5)
-	sids = embeds.loc[idx].index.tolist()
-
-	y = pheno_p3.loc[sids, 'pctGasTrap_Thirona_P3'] - pheno_p3.loc[sids, 'pctGasTrap_Thirona_P2'] > 0
-	y = y.values.astype(int)
-
-	report(y,'incr air trap')
-
-	all_X = {eid: emb.loc[sids].values for eid, emb in all_embeds.items()}
-
-	res_encr_gas = get_performance(all_X, y, RandomForestClassifier)
-
-	res_encr_gas['n_samples'] = len(sids)
+	
 
 	# Table
 	res_list = [res_mort, res_mort_3yr, res_exac, res_occ_exac, res_freq, res_incr_freq, res_decr_fev, res_bronchitis, res_mmrc, res_sf36, res_encr_emph, res_encr_gas]
