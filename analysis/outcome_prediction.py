@@ -39,11 +39,6 @@ def main(model_dir, gendata_dir, out_dir):
 
 	from pathlib import Path
 
-	from utils import loader_funcs, get_pca
-	from utils.coupled_dataset_module import CoupledDatasetModule
-
-	from sklearn.cross_decomposition import CCA
-
 	from scipy.stats import ttest_rel
 
 	np.random.seed(0)
@@ -53,54 +48,40 @@ def main(model_dir, gendata_dir, out_dir):
 	model_dir = Path(model_dir)
 	gendata_dir = Path(gendata_dir)
 	embeds_path = model_dir / 'embeddings.tsv'
-	data_dir = Path('data/coupled')
 	pca_dir = Path(gendata_dir / 'pca')
 	cca_dir = Path(gendata_dir / 'cca')
 	mofa_dir = Path(gendata_dir / 'mofa')
-
-	splits_df = loader_funcs.load_splits(model_dir / "splits_df.tsv")
-
-	cdm = CoupledDatasetModule(data_dir, bs=-1)
-	cdm.setup()
-	cdm.split(splits_df=splits_df, scaler='minmax')
-
-	expr_pheno = cdm.get_full_data(cond=False, concat=True)
-
-	expr, pheno = cdm.get_full_data(cond=False, concat=False)
+	outcome_dir = Path(gendata_dir / 'data')
 
 	embeds = pd.read_table(embeds_path, index_col=0)
-	feat_data = pd.read_table(data_dir / 'pheno.feats.tsv', index_col=0)
-	feat_data = feat_data.loc[embeds.index]
 
-	pheno_p3 = pd.read_table(
-		'data/pheno/raw/COPDGene_P1P2P3_Flat_SM_NS_Mar20.txt',
-		index_col=0)
+	pheno_p3 = pd.read_table(outcome_dir / 'pheno.tsv',index_col=0)
 	pheno_p3 = pheno_p3.loc[embeds.index]
 
-	mortality = pd.read_table('data/pheno/processed/vital_status.tsv', index_col=0)
-	mortality = mortality.loc[embeds.index]
+	mortality = pheno_p3[['P3_vitalstatus','vital_status_3yr']]
+	#mortality = mortality.loc[embeds.index]
 
 	print(f'- Evaluating embeddings')
 
 	# PCA precalcualted with pca.py
-	expr_pca = pd.read_table(pca_dir / 'expr_pca.tsv', index_col=0).values
-	pheno_pca = pd.read_table(pca_dir / 'pheno_pca.tsv', index_col=0).values
-	expr_pheno_pca = pd.read_table(pca_dir / 'expr_pheno_pca.tsv', index_col=0).values
+	expr_pca = pd.read_table(pca_dir / 'expr_pca.tsv', index_col=0)
+	pheno_pca = pd.read_table(pca_dir / 'pheno_pca.tsv', index_col=0)
+	expr_pheno_pca = pd.read_table(pca_dir / 'expr_pheno_pca.tsv', index_col=0)
 
 	# CCA precalculated with cca.py
-	pheno_c = pd.read_table(cca_dir / 'pheno_cca.tsv',index_col=0).values
-	expr_c = pd.read_table(cca_dir / 'expr_cca.tsv',index_col=0).values
+	pheno_c = pd.read_table(cca_dir / 'pheno_cca.tsv',index_col=0)
+	expr_c = pd.read_table(cca_dir / 'expr_cca.tsv',index_col=0)
 
 	# MOFA factors have been pre-calculated with mofa.py
-	z_fact = pd.read_table(mofa_dir / 'Z_fact.tsv',index_col=0)
+	mofa = pd.read_table(mofa_dir / 'Z_fact.tsv',index_col=0)
 
 	all_embeds = {'vae': embeds,
 				  'expr_pca': expr_pca,
 				  'pheno_pca': pheno_pca,
 				  'expr_pheno_pca': expr_pheno_pca,
-				  'expr_cca': pd.DataFrame(pheno_c, index=pheno.index),
-				  'pheno_cca': pd.DataFrame(expr_c, index=expr.index),
-				  'mofa':z_fact
+				  'expr_cca': pheno_c,
+				  'pheno_cca': expr_c,
+				  'mofa':mofa
 				  }
 
 	print(f'- Evaluating performance')

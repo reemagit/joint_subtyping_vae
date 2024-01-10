@@ -11,8 +11,6 @@ def main(model_dir, out_dir):
 
 	from utils import loader_funcs
 	from utils.coupled_dataset_module import CoupledDatasetModule
-
-	from sklearn.cross_decomposition import CCA
 	from utils import get_pca
 
 	np.random.seed(0)
@@ -45,9 +43,9 @@ def main(model_dir, out_dir):
 	print(f'- Saving')
 
 	out_pca_dir.mkdir(parents=True, exist_ok=True)
-	pd.DataFrame(expr_pca,index=embeds.index, columns=[f'PC{i}' for i in range(expr_pca.shape[1])]).to_csv(out_pca_dir / 'expr_pca.tsv',sep='\t')
-	pd.DataFrame(pheno_pca,index=embeds.index, columns=[f'PC{i}' for i in range(pheno_pca.shape[1])]).to_csv(out_pca_dir / 'pheno_pca.tsv',sep='\t')
-	pd.DataFrame(expr_pheno_pca,index=embeds.index, columns=[f'PC{i}' for i in range(expr_pheno_pca.shape[1])]).to_csv(out_pca_dir / 'expr_pheno_pca.tsv',sep='\t')
+	pd.DataFrame(expr_pca.values,index=embeds.index, columns=[f'PC{i}' for i in range(expr_pca.shape[1])]).to_csv(out_pca_dir / 'expr_pca.tsv',sep='\t')
+	pd.DataFrame(pheno_pca.values,index=embeds.index, columns=[f'PC{i}' for i in range(pheno_pca.shape[1])]).to_csv(out_pca_dir / 'pheno_pca.tsv',sep='\t')
+	pd.DataFrame(expr_pheno_pca.values,index=embeds.index, columns=[f'PC{i}' for i in range(expr_pheno_pca.shape[1])]).to_csv(out_pca_dir / 'expr_pheno_pca.tsv',sep='\t')
 
 if __name__ == '__main__':
 	main()

@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from umap import UMAP
+#from umap import UMAP
 from sklearn.decomposition import PCA
 from tqdm.auto import tqdm, trange
 
@@ -46,16 +46,16 @@ def get_pca(data, n_components=50, print_expl_var=False, return_obj=False):
     else:
         return pca_vals
 
-def get_umap(data, pca_comp=None, n_neighbors=15, return_obj=False, random_state=None):
-    if pca_comp is not None:
-        data = get_pca(data, pca_comp)
-    umap_obj = UMAP(n_neighbors=n_neighbors,random_state=random_state).fit(data.values)
-    umap_vals = umap_obj.transform(data.values)
-    umap_vals = pd.DataFrame(umap_vals, index=data.index, columns=[f'umap_{i}' for i in range(2)])
-    if return_obj:
-        return umap_vals, umap_obj
-    else:
-        return umap_vals
+# def get_umap(data, pca_comp=None, n_neighbors=15, return_obj=False, random_state=None):
+#     if pca_comp is not None:
+#         data = get_pca(data, pca_comp)
+#     umap_obj = UMAP(n_neighbors=n_neighbors,random_state=random_state).fit(data.values)
+#     umap_vals = umap_obj.transform(data.values)
+#     umap_vals = pd.DataFrame(umap_vals, index=data.index, columns=[f'umap_{i}' for i in range(2)])
+#     if return_obj:
+#         return umap_vals, umap_obj
+#     else:
+#         return umap_vals
 
 def plot_feature(data, color, qup=100, qdown=0,highlight=None,order=None,*args, **kwargs):
     if isinstance(data,pd.DataFrame):
