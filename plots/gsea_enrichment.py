@@ -1,9 +1,9 @@
-import pandas as pd
-import numpy as np
-import networkx as nx
-import matplotlib.pyplot as plt
+import click
 
 def plot_GSEAPy_paths_FDR(fig_name,enrich1_hall,enrich3_hall,enrich4_hall,pval_thresh, top_n=0, hallmark=False, order_by='NES'):
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import os
     if top_n==0:
         enrich1_sig = enrich1_hall.loc[enrich1_hall['FDR q-val']<pval_thresh].index.tolist()
         enrich3_sig = enrich3_hall.loc[enrich3_hall['FDR q-val']<pval_thresh].index.tolist()
@@ -45,20 +45,32 @@ def plot_GSEAPy_paths_FDR(fig_name,enrich1_hall,enrich3_hall,enrich4_hall,pval_t
             t.set_bbox(dict(facecolor='white',edgecolor='white'))
     ax1.legend(fontsize=20,loc='lower right')
     ax1.set_xlabel('NES',fontsize=20)
-    plt.savefig(fig_name,bbox_inches='tight')
+
+    if not os.path.exists(os.path.dirname(fig_name)):
+        os.makedirs(os.path.dirname(fig_name))
+
+    plt.savefig(fig_name, bbox_inches='tight')
     plt.show()
     return enrich1_sig,enrich3_sig,enrich4_sig,enrichall_sig   
 
 
-pre_res1 = pd.read_csv('/udd/nhmdm/Projects/Autoencoder_Enrico/Gendata/Enrichment_branches/enrich_1high_vs_healthy_hallmark_cellcov_nobasophl_GSEAPy.tsv',sep='\t')
-pre_res3 = pd.read_csv('/udd/nhmdm/Projects/Autoencoder_Enrico/Gendata/Enrichment_branches/enrich_3high_vs_healthy_hallmark_cellcov_nobasophl_GSEAPy.tsv',sep='\t')
-pre_res4 = pd.read_csv('/udd/nhmdm/Projects/Autoencoder_Enrico/Gendata/Enrichment_branches/enrich_4high_vs_healthy_hallmark_cellcov_nobasophl_GSEAPy.tsv',sep='\t')
-pre_res_db1 = pre_res1.set_index('Term')
-pre_res_db3 = pre_res3.set_index('Term')
-pre_res_db4 = pre_res4.set_index('Term')
+@click.command()
+@click.argument('de_dir', type=str)
+@click.argument('out_path', type=str)
+@click.option('--fdr_thresh', default=0.05, help='FDR threshold')
+def main(de_dir, out_path, fdr_thresh):
+    import pandas as pd
+    from pathlib import Path
 
+    de_dir = Path(de_dir)
+    pre_res1 = pd.read_csv(de_dir / 'enrich_1high_vs_healthy_hallmark_cellcov_nobasophl_GSEAPy.tsv', sep='\t')
+    pre_res3 = pd.read_csv(de_dir / 'enrich_3high_vs_healthy_hallmark_cellcov_nobasophl_GSEAPy.tsv', sep='\t')
+    pre_res4 = pd.read_csv(de_dir / 'enrich_4high_vs_healthy_hallmark_cellcov_nobasophl_GSEAPy.tsv', sep='\t')
+    pre_res_db1 = pre_res1.set_index('Term')
+    pre_res_db3 = pre_res3.set_index('Term')
+    pre_res_db4 = pre_res4.set_index('Term')
 
-#figname = '/udd/nhmdm/Projects/Autoencoder_Enrico/Figures/hallmarks_cellcov_nobasophl_plot_GSEA_paths.pdf'
-figname = '/udd/nhmdm/Projects/Autoencoder_Enrico/Figures/hallmarks_cellcov_nobasophl_plot_GSEA_paths_new.pdf'
-FDR_thresh = 0.05
-enrich1_sig,enrich3_sig,enrich4_sig,enrichall_sig = plot_GSEAPy_paths_FDR(figname, pre_res_db1,pre_res_db3,pre_res_db4,pval_thresh=FDR_thresh, hallmark=True,order_by='NES')
+    enrich1_sig, enrich3_sig, enrich4_sig, enrichall_sig = plot_GSEAPy_paths_FDR(out_path, pre_res_db1, pre_res_db3, pre_res_db4, pval_thresh=fdr_thresh, hallmark=True, order_by='NES')
+
+if __name__ == '__main__':
+    main()

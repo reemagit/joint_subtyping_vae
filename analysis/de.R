@@ -1,26 +1,21 @@
-renv::load("/udd/reema/Postdoc/Progetti/COPDGENE/copd_vae/copd_vae")
-
-#
 library(DESeq2)
 library("magrittr")
-#library(dplyr)
+library(dplyr)
 library(stringr)
 library(edgeR)
-#library(EnsDb.Hsapiens.v79)
+library(EnsDb.Hsapiens.v79)
 
-#setwd('/udd/nhmdm/Projects/Autoencoder_Enrico')
+expr_dir <- "gendata_2/data/"
+de_dir <- "gendata_2/de/"
+branches_dir <- "gendata_2/elpi/"
 
-expr_dir <- "data/expr/"
-de_dir <- "gendata_1/DE"
-branches_dir <- "gendata_1/elpi"
-
-counts_raw = read.table(file.path(expr_dir,"raw/counts_raw.tsv"),sep='\t',header=TRUE, row.names=1)
+counts_raw = read.table(file.path(expr_dir,"counts_raw.tsv"),sep='\t',header=TRUE, row.names=1)
 counts_raw <- as.matrix(counts_raw)
 counts <- round(counts_raw)
 colnames(counts) <- substring(colnames(counts),2)
 #
 #
-masterfile <- read.table(file.path(expr_dir,'processed/masterfile.tsv'),sep='\t',header=TRUE, row.names=1)
+masterfile <- read.table(file.path(expr_dir,'masterfile.tsv'),sep='\t',header=TRUE, row.names=1)
 pheno <- read.table(file.path(de_dir,'pheno_branches_covariates_cellcov.tsv'),sep='\t',header=TRUE, row.names=1) ##Already ordered based on the rows of branches.tsv
 branches <- read.table(file.path(branches_dir,'branches.tsv'),sep='\t',header=TRUE, row.names=1)
 #

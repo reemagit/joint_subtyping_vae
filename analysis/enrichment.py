@@ -5,8 +5,8 @@ import gseapy as gp
 import biorosetta as br
 from pathlib import Path
 
-de_dir = Path('gendata_1/DE')
-out_dir = Path('gendata_1/DE')
+de_dir = Path('gendata_2/de')
+out_dir = Path('gendata_2/de')
 out_dir.mkdir(parents=True, exist_ok=True)
 
 def gendata_GSEAPy_new(DE_branches,contrast=""):
