@@ -26,7 +26,6 @@ def plot(plotdata, feature, plot_branch_labels=True):
 @click.option('-o','--out_file', type=str, default=None)
 @click.option('--branch_labels/--no-branch_labels', default=True)
 @click.option('--show/--no-show', default=True)
-#@click.option('-s','--seed', 'seed', default=42, type=int, help='Random seed')
 def main(embeds_path, graph_dir, out_file, branch_labels, show):
 	import pandas as pd
 	import numpy as np
