@@ -246,8 +246,8 @@ def main(model_dir, gendata_dir, out_dir):
 	
 
 	# Table
-	res_list = [res_mort, res_mort_3yr, res_exac, res_occ_exac, res_freq, res_incr_freq, res_decr_fev, res_bronchitis, res_mmrc, res_sf36, res_encr_emph, res_encr_gas]
-	res_ids = ['mortality_P3', 'mortality_3yr', 'sev_exac', 'occ_sev_exac', 'freq_exac', 'freq_exac_increase','res_decr_fev', 'res_bronchitis', 'res_mmrc', 'res_sf36','res_encr_emph','res_encr_gas']
+	res_list = [res_mort, res_mort_3yr, res_exac, res_occ_exac, res_freq, res_incr_freq, res_decr_fev, res_bronchitis, res_mmrc, res_sf36]
+	res_ids = ['mortality_P3', 'mortality_3yr', 'sev_exac', 'occ_sev_exac', 'freq_exac', 'freq_exac_increase','res_decr_fev', 'res_bronchitis', 'res_mmrc', 'res_sf36']
 
 	metric_list = ['f1','average_precision','balanced_accuracy']
 	embed_list = ['pheno_pca', 'expr_pca', 'expr_pheno_pca', 'expr_cca', 'pheno_cca', 'mofa','vae']

@@ -18,7 +18,7 @@ def print_table(df, df_std, df_pval, lbl=None, metrics=None):
 
 	col_string = ''.join(['c']*col_number)
 
-	outcome_list = ['res_decr_fev','res_bronchitis','freq_exac','freq_exac_increase','sev_exac','occ_sev_exac','res_mmrc','res_sf36','res_encr_emph','res_encr_gas','mortality_3yr','mortality_P3']
+	outcome_list = ['res_decr_fev','res_bronchitis','freq_exac','freq_exac_increase','sev_exac','occ_sev_exac','res_mmrc','res_sf36','mortality_3yr','mortality_P3']
 
 	text = []
 
@@ -84,7 +84,7 @@ def get_label(lbl):
 @click.argument('table_avg_path', type=click.Path(exists=True))
 @click.argument('table_std_path', type=click.Path(exists=True))
 @click.argument('table_pval_path', type=click.Path(exists=True))
-@click.option('-o', '--out_path', 'out_path', type=click.Path(), default=None, help='Output directory of results file (.tsv)')
+@click.option('-o', '--out_path', 'out_path', type=click.Path(), default=None, help='Output path of table (.tex)')
 def main(table_avg_path, table_std_path, table_pval_path, out_path):
 	import pandas as pd
 

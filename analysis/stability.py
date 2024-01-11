@@ -56,17 +56,20 @@ def jsonify(obj): # quick and dirty
 
 
 @click.command()
-def main():
+@click.argument('gendata_dir', type=str)
+def main(gendata_dir):
 	import pandas as pd
 	from tqdm.auto import trange
 	from pathlib import Path
 	import json
 	import os
 
-	branches_dir = Path('gendata_1/elpi')
-	embeds_dir = Path('gendata_1/model')
-	pert_dir = Path('gendata_1/stability')
-	out_dir = Path('gendata_1/stability')
+	gendata_dir = Path(gendata_dir)
+
+	branches_dir = gendata_dir / 'elpi'
+	embeds_dir = gendata_dir / 'model'
+	pert_dir = gendata_dir / 'stability'
+	out_dir = gendata_dir / 'stability'
 
 	print('- Load data')
 
