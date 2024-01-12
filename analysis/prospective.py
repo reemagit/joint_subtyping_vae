@@ -158,7 +158,7 @@ def main(gendata_dir, out_dir):
     temp_data = time_data[['sid','Net_Exacerbations','branch','age','sex','race']].copy()
     temp_data = temp_data.dropna()
     temp_data['age'] = (temp_data['age'] - temp_data['age'].mean()) / temp_data['age'].std()
-    temp_data.to_csv(out_dir / 'lfu_data.tsv',sep='\t')
+    temp_data.to_csv(out_dir / 'lfu_covariates.tsv',sep='\t')
 
     #os.system('module load R/4.3.0')
     #os.system('Rscript src/analysis/prospective_exac_glm.r')

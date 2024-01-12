@@ -5,9 +5,10 @@ library(stringr)
 library(edgeR)
 library(EnsDb.Hsapiens.v79)
 
-expr_dir <- "gendata_2/data/"
-de_dir <- "gendata_2/de/"
-branches_dir <- "gendata_2/elpi/"
+args <- commandArgs(trailingOnly = TRUE)
+expr_dir <- file.path(args[1], "data")
+de_dir <- file.path(args[1], "de")
+branches_dir <- file.path(args[1], "elpi")
 
 counts_raw = read.table(file.path(expr_dir,"counts_raw.tsv"),sep='\t',header=TRUE, row.names=1)
 counts_raw <- as.matrix(counts_raw)
