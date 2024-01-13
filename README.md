@@ -1,6 +1,6 @@
 # Code for paper "Joint Clinical and Molecular Subtyping of COPD with Variational Autoencoders", Maiorino et al.
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](License.md)
 
 ## Description
 
@@ -151,4 +151,4 @@ For information of questions please contact ```enrico.maiorino at channing.harva
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](License.md).
