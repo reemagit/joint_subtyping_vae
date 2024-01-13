@@ -29,8 +29,5 @@ archive
 *.ipynb
 *.txt
 
-
-
-
-
-
+# allow requirements.txt
+!requirements.txt
