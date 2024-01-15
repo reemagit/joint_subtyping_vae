@@ -55,7 +55,11 @@ We consider 4 subtypes:
 
 We generate a dataset of 1,000 individuals that are distributed uniformly across these 4 subtypes.
 
-This dataset is located at ```$MAIN_DIR/toy_example```. We can train the VAE with the following command:
+This dataset is located at ```$MAIN_DIR/toy_example```. 
+
+The main script to train the VAE is ```train/train_model.py```. Type ```train/train_model.py``` to see the available options.
+
+We can train the VAE with the following command:
 
 ```bash
 python train/train_model.py $MAIN_DIR/toy_data $MAIN_DIR/toy_data/results -n 100 -z 2 -h1 10,5 -h2 10,5 -s 0

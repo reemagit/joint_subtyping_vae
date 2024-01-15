@@ -20,6 +20,7 @@ renv
 **/data_orig/
 **/gendata*/
 **/__pycache__/
+**/public/
 
 # other
 archive
