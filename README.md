@@ -44,7 +44,7 @@ pip install .
 
 ### Toy data example
 
-For illustrative purposes, we consider a scenario in which a person may exhibit one of two distinct gene expression signatures (A or B) and one of two unique clinical presentations (1 or 2). These varying states are each characterized by their own specific distributions. 
+For illustrative purposes, we consider a scenario in which a person may exhibit one of two distinct gene expression signatures (A or B) and one of two unique clinical presentations (1 or 2). These states are each characterized by their own specific distributions. 
 
 We consider 4 subtypes: 
 
@@ -57,7 +57,7 @@ We generate a dataset of 1,000 individuals that are distributed uniformly across
 
 This dataset is located at ```$MAIN_DIR/toy_example```. 
 
-The main script to train the VAE is ```train/train_model.py```. Type ```train/train_model.py``` to see the available options. In this example, we train the VAE with the following command:
+The main script to train the VAE is ```train/train_model.py``` (type ```train/train_model.py --help``` to see the available options). In this example, we train the VAE with the following command:
 
 ```bash
 python train/train_model.py $MAIN_DIR/toy_data $MAIN_DIR/toy_data/results -n 100 -z 2 -h1 10,5 -h2 10,5 -s 0
