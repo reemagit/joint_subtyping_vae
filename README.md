@@ -57,15 +57,13 @@ We generate a dataset of 1,000 individuals that are distributed uniformly across
 
 This dataset is located at ```$MAIN_DIR/toy_example```. 
 
-The main script to train the VAE is ```train/train_model.py```. Type ```train/train_model.py``` to see the available options.
-
-We can train the VAE with the following command:
+The main script to train the VAE is ```train/train_model.py```. Type ```train/train_model.py``` to see the available options. In this example, we train the VAE with the following command:
 
 ```bash
 python train/train_model.py $MAIN_DIR/toy_data $MAIN_DIR/toy_data/results -n 100 -z 2 -h1 10,5 -h2 10,5 -s 0
 ```
 
-where we imposed only 2 embedding dimensions to allow for easy visualization.
+Here we set 2 embedding dimensions (argument ```-z 2```) to allow for easy visualization, 100 training iterations, and two hidden layers per data type with 10 and 5 units.
 
 In ```$MAIN_DIR/toy_data/results``` we will get the embeddings (```embeddings.tsv```), the torch model file (```model.pth```), the torch optimizer state (```optimized.pth```), and the dataset splits (```splits_df.tsv```).
 
