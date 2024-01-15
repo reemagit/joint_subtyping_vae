@@ -65,7 +65,7 @@ python train/train_model.py $MAIN_DIR/toy_data $MAIN_DIR/toy_data/results -n 100
 
 Here we set 2 embedding dimensions (argument ```-z 2```) to allow for easy visualization, 100 training iterations, and two hidden layers per data type with 10 and 5 units.
 
-In ```$MAIN_DIR/toy_data/results``` we will get the embeddings (```embeddings.tsv```), the torch model file (```model.pth```), the torch optimizer state (```optimized.pth```), and the dataset splits (```splits_df.tsv```).
+In the output directory ```$MAIN_DIR/toy_data/results``` we will get the embeddings (```embeddings.tsv```), the torch model file (```model.pth```), the torch optimizer state (```optimized.pth```), and the dataset splits (```splits_df.tsv```).
 
 By plotting the dataframe in ```embeddings.tsv``` we will get 
 
