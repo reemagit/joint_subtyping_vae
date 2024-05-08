@@ -245,10 +245,14 @@ class CoupledVAE(nn.Module):
 
 		loss1 = alpha_12 * mse1 / norm_factor1
 		loss2_num = (1 - alpha_12) * alpha_numcat * mse2_num / norm_factor2_num
-		loss2_cat = (1 - alpha_12) * (1 - alpha_numcat) * bce2_cat / norm_factor2_cat
+		if alpha_numcat < 1:
+			loss2_cat = (1 - alpha_12) * (1 - alpha_numcat) * bce2_cat / norm_factor2_cat
+		else:
+			loss2_cat = torch.tensor(0.)
 		loss_mmd = mmd_weight * mmd / norm_factor_mmd
 		loss_l1 = l1_term * self.alpha_l1
 		loss_l2 = l2_term * self.alpha_l2
+		print(loss1, loss2_num, loss2_cat, loss_mmd, loss_l1, loss_l2)
 
 		loss = loss1 + loss2_num + loss2_cat + loss_mmd + loss_l1 + loss_l2
 		loss_dict = dict(loss=loss,
